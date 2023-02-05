@@ -63,7 +63,7 @@ function Header() {
                 <span className="d-lg-none ml-1">Dashboard</span>
               </Nav.Link>
             </Nav.Item>
-            <Dropdown as={Nav.Item}>
+            {/* <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 as={Nav.Link}
                 data-toggle="dropdown"
@@ -83,11 +83,11 @@ function Header() {
                   Notification 1
                 </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
             
           </Nav>
           <Nav className="ml-auto" navbar>
-            <Dropdown as={Nav.Item}>
+            {/* <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 aria-expanded={false}
                 aria-haspopup={true}
@@ -118,15 +118,15 @@ function Header() {
                 >
                   New Portfolio
                 </Dropdown.Item>
-                {/* <div className="divider"></div>
+                <div className="divider"></div>
                 <Dropdown.Item
                   href="#pablo"
                   onClick={(e) => e.preventDefault()}
                 >
                   Separated link
-                </Dropdown.Item> */}
+                </Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
             {/* <Nav.Item>
               <Nav.Link
                 className="m-0"

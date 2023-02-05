@@ -8,6 +8,7 @@ import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
 import CompanyDash from "views/CompanyDash.js";
+import BackTest from "views/BackTest.js";
 import NewsDash from "views/NewsDash";
 
 const dashboardRoutes = [
@@ -31,6 +32,13 @@ const dashboardRoutes = [
     name: "Company Data",
     icon: "nc-icon nc-notes",
     component: CompanyDash,
+    layout: "/admin"
+  },
+  {
+    path: "/BackTest",
+    name: "BackTest",
+    icon: "nc-icon nc-chart-pie-35",
+    component: BackTest,
     layout: "/admin"
   },
   {

@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Label } from "reactstrap";
 
 
 
@@ -21,6 +22,7 @@ function CompanyDash() {
   const [data, setData] = useState({});
   const [newsData, setNewsData] = useState([]);
   const [DailyBar, setDailyBar] = useState({});
+  const [DailyBarTech, setDailyBarTech] = useState({});
   const [CompanyList, setCompanyList] = useState([]);
   const [minData, setMinData] = useState("");
   const [maxData, setMaxData] = useState("");
@@ -63,6 +65,19 @@ function CompanyDash() {
     }
   }
 
+  async function getDailyBarTech(ticker = company) {
+    if (exchange === "NSE") {
+      const response = await axios.get('/load/nse/data/technical/' + ticker);
+      setDailyBarTech(response.data);
+      return;
+    }
+    else if (exchange === "Binance") {
+      const response = await axios.get('/load/binance/data/technical/' + ticker);
+      setDailyBarTech(response.data);
+      return;
+    }
+  }
+
   async function getPortfolioPie() {
     const response = await axios.get('/load/graph/pie');
     setPortfolioPie(response.data);
@@ -75,6 +90,7 @@ function CompanyDash() {
     getCompanyList();
     getNewsData();
     getCompanyData();
+    getDailyBarTech();
   }, []);
 
   async function getCompanyData(value = company) {
@@ -90,6 +106,7 @@ function CompanyDash() {
     setMaxData(data.end_date);
     getNewsData();
     getDailyBar();
+    getDailyBarTech();
   }
 
 
@@ -102,9 +119,9 @@ function CompanyDash() {
       return;
     }
     // make api call
-    const response = await axios.get('/load/' + exchange.toLowerCase() + '/data/' + company + "/" + stckStart + "/" + stckEnd);
+    const response = await axios.get('/load/' + exchange.toLowerCase() + '/data/tech/' + company + "/" + stckStart + "/" + stckEnd);
     // console.log(response.data);
-    setDailyBar(response.data);
+    setDailyBarTech(response.data);
   }
 
 
@@ -225,6 +242,9 @@ function CompanyDash() {
             </Card>
           </Col>
         </Row>
+        
+
+
         <Row>
           <Col md="12">
             <Card>
@@ -237,7 +257,7 @@ function CompanyDash() {
                 <Button variant="primary" onClick={() => { getDailyBarDate(); }}>Update</Button>
               </Card.Header>
               <Card.Body>
-                <Plot data={DailyBar.data} layout={DailyBar.layout} className="col-12" style={{ "height": "600px" }} />
+                <Plot data={DailyBarTech.data} layout={DailyBarTech.layout} className="col-12" style={{ "height": "600px" }} />
               </Card.Body>
               <Card.Footer>
                 <div className="legend">
@@ -248,6 +268,45 @@ function CompanyDash() {
                   Updated 3 minutes ago
                 </div>
               </Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+
+
+        <Row>
+          <Col md="12">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Technical Indicator HowTO</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <h3>Bollinger Bands</h3>
+                <p>Upper band is 2 standard deviations above the X-day simple moving average (SMA) of the closing price.</p>
+                <p>Lower band is 2 standard deviations below the X-day SMA of the closing price.</p>
+                <p>Typical price is the average of the high, low, and closing price for the day.</p>
+                <p>Standard deviation is a statistical measure of volatility.</p>
+                <p>X-day SMA is the simple moving average of the closing price over the last X days.</p>
+                {/* source as a */}
+                <p>Source: <a href="https://www.investopedia.com/terms/b/bollingerbands.asp" target="_blank">Investopedia</a></p>
+
+                <h3>CCI</h3>
+                <p>CCI is an oscillator that measures the current price level relative to an average price level over a specific period of time.</p>
+                <p>Typical price is the average of the high, low, and closing price for the day.</p>
+                <p>X-day SMA is the simple moving average of the closing price over the last X days.</p>
+                <p>X-day mean deviation is the average absolute difference between the typical price and the X-day SMA.</p>
+                <p>Source: <a href="https://www.investopedia.com/terms/c/commoditychannelindex.asp" target="_blank">Investopedia</a></p>
+
+                <h3>SMA</h3>
+                <p>SMA is the simple moving average of the closing price over the last X days.</p>
+                <p>Source: <a href="https://www.investopedia.com/terms/s/sma.asp" target="_blank">Investopedia</a></p>
+
+                <h3>DX</h3>
+                <p>DX is the difference between the +DI and -DI divided by the sum of the +DI and -DI.</p>
+                <p>+DI is the 14-day exponential moving average of the difference between the high and the previous high, divided by the sum of the high and the previous high.</p>
+                <p>-DI is the 14-day exponential moving average of the difference between the low and the previous low, divided by the sum of the low and the previous low.</p>
+                <p>Source: <a href="https://www.investopedia.com/terms/d/dx.asp" target="_blank">Investopedia</a></p>
+                
+              </Card.Body>
             </Card>
           </Col>
         </Row>
